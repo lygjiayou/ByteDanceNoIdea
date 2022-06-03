@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"douyin/utils"
+	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -10,14 +12,15 @@ import (
 )
 
 //以下是配置mysql数据库
-var (
-	addrMYSQL = "127.0.0.1:3306" //mysql地址
-	account   = "root"           //mysql账号
-	password  = "root"           //mysql密码
-	dbName    = "noideadouyin"   //mysql数据库
-)
+//var (
+//	addrMYSQL = "127.0.0.1:3306" //mysql地址
+//	account   = "root"           //mysql账号
+//	password  = "root"           //mysql密码
+//	dbName    = "noideadouyin"   //mysql数据库
+//)
 
 var db *gorm.DB
+var err error
 
 // InitMysql 初始化mysql链接
 func InitMysql() {
@@ -31,19 +34,26 @@ func InitMysql() {
 			Colorful:                  false,       // Disable color
 		},
 	)
-	connString := account + ":" + password + "@tcp(" + addrMYSQL + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
-	dB, err := gorm.Open(mysql.Open(connString), &gorm.Config{
-		Logger:                 newLogger,
-		SkipDefaultTransaction: false, //自动开启事务的开关
+	connString := utils.DbUser + ":" + utils.DbPassWord + "@tcp(" + utils.DbHost + ":" + utils.DbPort + ")/" + utils.DbName + "?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err = gorm.Open(mysql.Open(connString), &gorm.Config{
+		Logger: newLogger,
+		//SkipDefaultTransaction: false, //自动开启事务的开关
 	})
-	sqlDB, err := dB.DB()
+
+	// 设置自动迁移
+	err = db.AutoMigrate(&User{})
+	if err != nil {
+		fmt.Println("自动迁移失败")
+	}
+
+	sqlDB, err := db.DB()
 	if err != nil {
 		log.Fatalln("mysql lost:", err)
 	}
+
 	//设置连接池
 	//空闲
 	sqlDB.SetMaxIdleConns(10) // 空闲连接池最大连接数。
 	//打开
 	sqlDB.SetMaxOpenConns(30)
-	db = dB
 }

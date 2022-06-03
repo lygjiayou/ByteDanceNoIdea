@@ -8,6 +8,8 @@ import (
 
 func main() {
 
+	repository.InitMysql()
+
 	r := gin.Default()
 
 	r.Use(gin.Logger())
@@ -15,7 +17,5 @@ func main() {
 	server.InitRouter(r)
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
-
-	repository.InitMysql()
 
 }

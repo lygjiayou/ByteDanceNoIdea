@@ -1,7 +1,8 @@
 package server
 
 import (
-	"github.com/RaymondCode/simple-demo/controller"
+	"douyin/controller"
+	"douyin/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -9,24 +10,36 @@ func InitRouter(r *gin.Engine) {
 	// public directory is used to serve static resources
 	r.Static("/static", "./public")
 
-	apiRouter := r.Group("/douyin")
+	// 无需token验证的路由放在该路由下
+	publicApiRouter := r.Group("/douyin")
+	{
+		publicApiRouter.POST("/user/register/", controller.UserRegister)
+		publicApiRouter.POST("/user/login/", controller.UserLogin)
+	}
+
+	// 需要token验证的路由放在该路由下
+	auth := r.Group("/douyin")
+	auth.Use(middleware.JwtToken())
+	{
+		auth.GET("/xxx/xxx/", controller.TokenTest)
+	}
 
 	// basic apis
-	apiRouter.GET("/feed/", controller.Feed)
-	apiRouter.GET("/user/", controller.UserInfo)
-	apiRouter.POST("/user/register/", controller.Register)
-	apiRouter.POST("/user/login/", controller.Login)
-	apiRouter.POST("/publish/action/", controller.Publish)
-	apiRouter.GET("/publish/list/", controller.PublishList)
+	//apiRouter.GET("/feed/", controller.Feed)
+	//apiRouter.GET("/user/", controller.UserInfo)
+	//apiRouter.POST("/user/register/", controller.Register)
+	//apiRouter.POST("/user/login/", controller.Login)
+	//apiRouter.POST("/publish/action/", controller.Publish)
+	//apiRouter.GET("/publish/list/", controller.PublishList)
 
 	// extra apis - I
-	apiRouter.POST("/favorite/action/", controller.FavoriteAction)
-	apiRouter.GET("/favorite/list/", controller.FavoriteList)
-	apiRouter.POST("/comment/action/", controller.CommentAction)
-	apiRouter.GET("/comment/list/", controller.CommentList)
+	//apiRouter.POST("/favorite/action/", controller.FavoriteAction)
+	//apiRouter.GET("/favorite/list/", controller.FavoriteList)
+	//apiRouter.POST("/comment/action/", controller.CommentAction)
+	//apiRouter.GET("/comment/list/", controller.CommentList)
 
 	// extra apis - II
-	apiRouter.POST("/relation/action/", controller.RelationAction)
-	apiRouter.GET("/relation/follow/list/", controller.FollowList)
-	apiRouter.GET("/relation/follower/list/", controller.FollowerList)
+	//apiRouter.POST("/relation/action/", controller.RelationAction)
+	//apiRouter.GET("/relation/follow/list/", controller.FollowList)
+	//apiRouter.GET("/relation/follower/list/", controller.FollowerList)
 }
