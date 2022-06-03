@@ -1,6 +1,7 @@
 package server
 
 import (
+	"douyin/api"
 	"github.com/RaymondCode/simple-demo/controller"
 	"github.com/gin-gonic/gin"
 )
@@ -13,9 +14,9 @@ func InitRouter(r *gin.Engine) {
 
 	// basic apis
 	apiRouter.GET("/feed/", controller.Feed)
-	apiRouter.GET("/user/", controller.UserInfo)
-	apiRouter.POST("/user/register/", controller.Register)
-	apiRouter.POST("/user/login/", controller.Login)
+	apiRouter.GET("/user/", api.UserInfo)
+	apiRouter.POST("/user/register/", api.Register)
+	apiRouter.POST("/user/login/", api.Login)
 	apiRouter.POST("/publish/action/", controller.Publish)
 	apiRouter.GET("/publish/list/", controller.PublishList)
 
