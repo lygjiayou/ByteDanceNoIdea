@@ -2,6 +2,7 @@ package server
 
 import (
 	"douyin/api"
+	"douyin/middleware"
 	"github.com/RaymondCode/simple-demo/controller"
 	"github.com/gin-gonic/gin"
 )
@@ -10,24 +11,34 @@ func InitRouter(r *gin.Engine) {
 	// public directory is used to serve static resources
 	r.Static("/static", "./public")
 
-	apiRouter := r.Group("/douyin")
+	// 无需token验证的路由放在该路由下
+	publicApiRouter := r.Group("/douyin")
+	{
+		publicApiRouter.POST("/user/register/", api.Register)
+		publicApiRouter.POST("/user/login/", api.Login)
+		publicApiRouter.GET("/feed/", controller.Feed)
 
+		publicApiRouter.POST("/publish/action/", controller.Publish)
+		publicApiRouter.GET("/publish/list/", controller.PublishList)
+
+		// extra apis - I
+		publicApiRouter.POST("/favorite/action/", controller.FavoriteAction)
+		publicApiRouter.GET("/favorite/list/", controller.FavoriteList)
+		publicApiRouter.POST("/comment/action/", controller.CommentAction)
+		publicApiRouter.GET("/comment/list/", controller.CommentList)
+
+		// extra apis - II
+		publicApiRouter.POST("/relation/action/", controller.RelationAction)
+		publicApiRouter.GET("/relation/follow/list/", controller.FollowList)
+		publicApiRouter.GET("/relation/follower/list/", controller.FollowerList)
+
+	}
+	// 需要token验证的路由放在该路由下
+	auth := r.Group("/douyin")
+	auth.Use(middleware.JwtToken())
+	{
+		publicApiRouter.GET("/user/", api.UserInfo)
+	}
 	// basic apis
-	apiRouter.GET("/feed/", controller.Feed)
-	apiRouter.GET("/user/", api.UserInfo)
-	apiRouter.POST("/user/register/", api.Register)
-	apiRouter.POST("/user/login/", api.Login)
-	apiRouter.POST("/publish/action/", controller.Publish)
-	apiRouter.GET("/publish/list/", controller.PublishList)
 
-	// extra apis - I
-	apiRouter.POST("/favorite/action/", controller.FavoriteAction)
-	apiRouter.GET("/favorite/list/", controller.FavoriteList)
-	apiRouter.POST("/comment/action/", controller.CommentAction)
-	apiRouter.GET("/comment/list/", controller.CommentList)
-
-	// extra apis - II
-	apiRouter.POST("/relation/action/", controller.RelationAction)
-	apiRouter.GET("/relation/follow/list/", controller.FollowList)
-	apiRouter.GET("/relation/follower/list/", controller.FollowerList)
 }
