@@ -3,12 +3,10 @@ package repository
 // 基础接口-用户信息
 type User struct {
 	ID            int64  `gorm:"column:id"`             // 用户id
-	Name          string `gorm:"column:name"`           // 用户名称
+	UserName      string `gorm:"column:username"`       // 用户名称
 	Password      string `gorm:"column:password"`       // 用户密码
-	Gender        string `gorm:"column:gender"`         // male-男性，female-女性
 	FollowCount   int64  `gorm:"column:follow_count"`   // 关注总数
 	FollowerCount int64  `gorm:"column:follower_count"` // 粉丝总数
-	//IsFollow      bool   `gorm:"column:is_follow"`     // true-已关注，false-未关注
 }
 
 //func (User) TableName() string {

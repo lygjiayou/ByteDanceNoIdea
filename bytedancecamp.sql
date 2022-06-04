@@ -1,24 +1,23 @@
 CREATE DATABASE IF NOT EXISTS `noideadouyin` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 USE `noideadouyin`;
-DROP TABLE IF EXISTS `user_info`;
-CREATE TABLE `user_info`
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user`
 (
     `id`              int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户id',
-    `name` varchar(20)        NOT NULL DEFAULT '' COMMENT '用户名称',
+    `username` varchar(20)        NOT NULL DEFAULT '' COMMENT '用户名称',
     `password` varchar(20)     NOT NULL DEFAULT '' COMMENT '用户密码',
-    `gender`    varchar(10)    NOT NULL DEFAULT 1 COMMENT   'male男性female女性',
     `follow_count`          int(10) unsigned NOT NULL  COMMENT '关注总数',
     `follower_count`        int(10) unsigned NOT NULL  COMMENT '粉丝总数',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='用户表';
 
-INSERT INTO `user_info`
-VALUES (1, '小明','123','male',1,1),
-       (2, '小红','124','female',1,1);
+INSERT INTO `user`
+VALUES (1, '小明','123',1,1),
+       (2, '小红','124',1,1);
 
-DROP TABLE IF EXISTS `video_info`;
-CREATE TABLE `video_info`
+DROP TABLE IF EXISTS `video`;
+CREATE TABLE `video`
 (
     `id`      int(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '视频ID',
     `title`     varchar(20) NOT NULL DEFAULT 0 COMMENT '视频标题',
@@ -32,11 +31,11 @@ CREATE TABLE `video_info`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='视频表';
 
-INSERT INTO `video_info`
+INSERT INTO `video`
 VALUES (1, '原生', 1, 'douyin/feed', '/douyin/favorite', 1, 0, '2022-04-01 13:50:19');
 
-DROP TABLE IF EXISTS `comment_info`;
-CREATE TABLE `comment_info`
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment`
 (
     `id`          int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '视频评论ID',
     `video_id`   int(10) unsigned NOT NULL DEFAULT 0 COMMENT '视频ID',
@@ -46,11 +45,11 @@ CREATE TABLE `comment_info`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='评论表';
-INSERT INTO `comment_info`
+INSERT INTO `comment`
 VALUES (1, 1, 1, '有趣', '2022-04-01 14:50:19');
 
-DROP TABLE IF EXISTS `like_info`;
-CREATE TABLE `like_info`
+DROP TABLE IF EXISTS `like`;
+CREATE TABLE `like`
 (
     `id`          int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '点赞记录ID',
     `user_id`   int(10) unsigned NOT NULL DEFAULT 0 COMMENT '点赞用户ID',
@@ -58,11 +57,11 @@ CREATE TABLE `like_info`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='点赞信息表';
-INSERT INTO `like_info`
+INSERT INTO `like`
 VALUES (1, 2, 1);
 
-DROP TABLE IF EXISTS `follow_info`;
-CREATE TABLE `follow_info`
+DROP TABLE IF EXISTS `follow`;
+CREATE TABLE `follow`
 (
     `id`          int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '关注记录ID',
     `follower_id`   int(10) unsigned NOT NULL DEFAULT 0 COMMENT '关注者用户ID',
@@ -70,6 +69,6 @@ CREATE TABLE `follow_info`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='关注信息表';
-INSERT INTO `follow_info`
+INSERT INTO `follow`
 VALUES (1, 1, 2),
        (2, 2, 1);

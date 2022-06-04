@@ -4,7 +4,7 @@ package model
 type LoginRequest struct {
 	//Name string `binding:"required"`
 	//Password string `binding:"required"`
-	Name     string `form:"username" json:"username"`
+	UserName string `form:"username" json:"username"`
 	Password string `form:"password" json:"password"`
 }
 
@@ -12,13 +12,13 @@ type LoginResponse struct {
 	//StatusCode int64   `json:"status_code"`// 状态码，0-成功，其他值-失败
 	//StatusMsg  *string `json:"status_msg"` // 返回状态描述
 	Response
-	Token  string `json:"token"`   // 用户鉴权token
-	UserID int64  `json:"user_id"` // 用户id
+	Token  string `json:"token"`             // 用户鉴权token
+	UserID int64  `json:"user_id,omitempty"` // 用户id
 }
 
 // 注册
 type RegisterRequest struct {
-	Name     string `json:"username"`
+	UserName string `json:"username"`
 	Password string `json:"password"`
 }
 
@@ -46,21 +46,13 @@ type RegisterResponse struct {
 type ErrNo int
 
 const (
-	OK                 ErrNo = 0
-	ParamInvalid       ErrNo = 1  // 参数不合法
-	UserHasExisted     ErrNo = 2  // 该 Username 已存在
-	UserHasDeleted     ErrNo = 3  // 用户已删除
-	UserNotExisted     ErrNo = 4  // 用户不存在
-	WrongPassword      ErrNo = 5  // 密码错误
-	LoginRequired      ErrNo = 6  // 用户未登录
-	CourseNotAvailable ErrNo = 7  // 课程已满
-	CourseHasBound     ErrNo = 8  // 课程已绑定过
-	CourseNotBind      ErrNo = 9  // 课程未绑定过
-	PermDenied         ErrNo = 10 // 没有操作权限
-	StudentNotExisted  ErrNo = 11 // 学生不存在
-	CourseNotExisted   ErrNo = 12 // 课程不存在
-	StudentHasNoCourse ErrNo = 13 // 学生没有课程
-	StudentHasCourse   ErrNo = 14 // 学生有课程
+	OK             ErrNo = 0
+	ParamInvalid   ErrNo = 1 // 参数不合法
+	UserHasExisted ErrNo = 2 // 该 Username 已存在
+	UserHasDeleted ErrNo = 3 // 用户已删除
+	UserNotExisted ErrNo = 4 // 用户不存在
+	WrongPassword  ErrNo = 5 // 密码错误
+	LoginRequired  ErrNo = 6 // 用户未登录
 
 	UnknownError ErrNo = 255 // 未知错误
 )

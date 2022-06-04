@@ -8,7 +8,7 @@ import (
 func LoginService(req *model.LoginRequest) *model.Response {
 	var resp model.Response
 	user := model.User{
-		Name:     req.Name,
+		UserName: req.UserName,
 		Password: req.Password,
 	}
 	rows, err := user.FindByUsernamePassword()

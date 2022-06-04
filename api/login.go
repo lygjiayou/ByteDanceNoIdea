@@ -1,18 +1,18 @@
 package api
 
 import (
+	"douyin/middleware"
 	"douyin/model"
 	"douyin/service"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/satori/go.uuid"
-	uuid "github.com/satori/go.uuid"
 	"net/http"
 )
 
 // Login 登入api
 func Login(c *gin.Context) {
 	var req model.LoginRequest
+	var token string
 	if err := c.ShouldBindQuery(&req); err != nil {
 		c.JSON(http.StatusOK, model.Response{
 			StatusCode: int32(model.ParamInvalid),
@@ -21,7 +21,7 @@ func Login(c *gin.Context) {
 	} else {
 		username := c.Query("username")
 		password := c.Query("password")
-		req.Name = username
+		req.UserName = username
 		req.Password = password
 		resp := service.LoginService(&req)
 		// 登入成功
@@ -37,28 +37,19 @@ func Login(c *gin.Context) {
 			//}
 			// 第一次登录需要根据用户名查询对应的ID，ID作为token的一部分,下次登录仍然重新生成token,token的作用是用户携带token访问其他资源时不用重新登录了
 			user := model.User{
-				Name: req.Name,
+				UserName: req.UserName,
 			}
-			_, _ = user.FindByUsername()
-			//id,exist := user.FindByUsername() // 根据用户名从数据库中查询用户ID
-			//if exist != nil { // 这里不用判断了，上面service.LoginService已经判断过了
-			//	c.JSON(http.StatusOK, model.Response{
-			//		StatusCode: 1,
-			//		StatusMsg:  "User doesn't exist",
-			//	})
-			//	return
-			//}
-			//u1 := uuid.NewV4().String()+req.Name+strconv.Itoa(int(id))
-			u1 := uuid.NewV4().String() + req.Name
-			fmt.Println(u1)
-			//resp.Token = &u1
-			//resp.UserID = &id
+			// 生成token
+			token, _ = middleware.SetToken(req.UserName, req.Password)
+			//_, _ = user.FindByUsername()
+			//u1 := uuid.NewV4().String() + req.UserName
+			//fmt.Println(u1)
 			c.JSON(http.StatusOK, model.LoginResponse{
 				Response: model.Response{
 					StatusCode: 0,
 					StatusMsg:  "User login success",
 				},
-				Token:  u1,
+				Token:  token,
 				UserID: user.ID,
 			})
 			return
