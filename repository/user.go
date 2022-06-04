@@ -54,7 +54,8 @@ func CheckLogin(username string, password string) int {
 	if user.ID == 0 {
 		return errmsg.ERROR_USER_NOT_EXIST
 	}
-	if ScryptPW(password) != user.Password {
+	//password = ScryptPW(password)
+	if password != user.Password {
 		return errmsg.ERROR_PASSWORD_WRONG
 	}
 

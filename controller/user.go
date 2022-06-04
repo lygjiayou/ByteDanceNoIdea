@@ -45,7 +45,7 @@ func UserLogin(c *gin.Context) {
 	var token string
 	data.UserName = c.Query("username")
 	data.Password = c.Query("password")
-
+	data.Password = repository.ScryptPW(data.Password)
 	code = repository.CheckLogin(data.UserName, data.Password)
 	if code == errmsg.SUCCESS {
 		// 生成token
@@ -61,7 +61,11 @@ func UserLogin(c *gin.Context) {
 }
 
 func TokenTest(c *gin.Context) {
+	fmt.Println("username: ")
 	fmt.Println(c.Keys["username"])
+	c.JSON(http.StatusOK, gin.H{
+		"username": c.Keys["username"],
+	})
 }
 
 //
