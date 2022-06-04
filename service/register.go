@@ -5,7 +5,7 @@ import (
 )
 
 func CheckRegisterParamService(request *model.RegisterRequest) bool {
-	username := request.Name
+	username := request.UserName
 	password := request.Password
 	// 用户名长度不能大于32位字符
 	if len(username) < 6 || len(username) > 32 {
@@ -23,7 +23,7 @@ func RegisterService(req *model.RegisterRequest) *model.Response {
 	var resp model.Response
 	// 注册时，只提供用户名和密码即可，其他的默认为初始值比如int类型的默认为0,性别默认为male
 	user := &model.User{
-		Name:     req.Name,
+		UserName: req.UserName,
 		Password: req.Password,
 	}
 	// 先判断表中是否已经存在该用户
