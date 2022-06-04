@@ -2,29 +2,25 @@ package service
 
 import (
 	"douyin/model"
-	"douyin/repository"
-	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
-type VideoListResponse struct {
-	model.Response
-	VideoList []model.Video `json:"video_list"`
-}
+// PublishListService  返回用户发布视频列表
+func PublishListService(req model.PublishListRequest) []model.ResVideo {
+	userID := req.UserID
 
-// PublishList 返回用户发布列表
-func PublishList(c *gin.Context) {
-	userId := c.Query("user_id")
-	videos, err := repository.GetPublishList(userId)
-	var resp = Response{}
-	if err != nil {
-		resp.StatusCode = 0
-		resp.StatusMsg = err.Error()
+	//获取author信息
+	var author model.User
+	author.ID = userID
+	author.FindUserInfoByID()
+
+	videos := model.GetPublishList(userID)
+	resVideos := make([]model.ResVideo, len(videos))
+	for i := 0; i < len(videos); i++ {
+		resVideos[i].User = author
+		resVideos[i].Video = videos[i]
 	}
-	c.JSON(http.StatusOK, VideoListResponse{
-		Response:  resp,
-		VideoList: videos,
-	})
+
+	return resVideos
 }
 
 //// Publish check token then save upload file to public directory

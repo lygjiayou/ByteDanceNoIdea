@@ -3,7 +3,7 @@ package model
 //// 基础接口-用户信息
 type User struct {
 	ID            int64  `gorm:"column:id"`             // 用户id
-	UserName      string `gorm:"column:username"`       // 用户名称
+	UserName      string `gorm:"column:user_name"`      // 用户名称
 	Password      string `gorm:"column:password"`       // 用户密码
 	FollowCount   int64  `gorm:"column:follow_count"`   // 关注总数
 	FollowerCount int64  `gorm:"column:follower_count"` // 粉丝总数
@@ -11,7 +11,7 @@ type User struct {
 }
 
 func (User) TableName() string {
-	return "user"
+	return "users"
 }
 
 // userList 存放用户的映射，用以判断用户是否存在。
@@ -35,6 +35,12 @@ func (user *User) FindByUsernamePassword() (int, error) {
 	find := db.Where("username=? AND password=?", user.UserName, user.Password).Find(user)
 	//find := db.Where(&User{Name: user.Name, Password: user.Password}).First(&user)
 	return int(find.RowsAffected), find.Error
+}
+
+// FindUserInfoByID 查找author所有信息
+func (user *User) FindUserInfoByID() error {
+	find := db.Select("id", "user_name", "follow_count", "follower_count").Where("id = ?", user.ID).Find(user)
+	return find.Error
 }
 
 // FindByUsername 通过用户名查找用户是否存在

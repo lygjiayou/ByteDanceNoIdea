@@ -2,7 +2,6 @@ package server
 
 import (
 	"douyin/api"
-	"douyin/middleware"
 	"github.com/RaymondCode/simple-demo/controller"
 	"github.com/gin-gonic/gin"
 )
@@ -35,9 +34,10 @@ func InitRouter(r *gin.Engine) {
 	}
 	// 需要token验证的路由放在该路由下
 	auth := r.Group("/douyin")
-	auth.Use(middleware.JwtToken())
+	//auth.Use(middleware.JwtToken())
 	{
-		publicApiRouter.GET("/user/", api.UserInfo)
+		auth.GET("/user/", api.UserInfo)
+		auth.GET("/publish/list", api.GetPublishList)
 	}
 	// basic apis
 
