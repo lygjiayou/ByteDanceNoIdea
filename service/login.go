@@ -8,7 +8,7 @@ import (
 func LoginService(req *model.LoginRequest) *model.Response {
 	var resp model.Response
 	user := model.User{
-		Name:     req.Name,
+		UserName: req.Name,
 		Password: req.Password,
 	}
 	rows, err := user.FindByUsernamePassword()
@@ -28,9 +28,9 @@ func LoginService(req *model.LoginRequest) *model.Response {
 	}
 	//resp.StatusCode = int32(model.OK)
 	//resp.StatusMsg = "user login success"
-	resp = model.Response(struct {
-		StatusCode int32
-		StatusMsg  string
-	}{StatusCode: int32(model.OK), StatusMsg: string("user login success")})
+	resp = model.Response{
+		StatusCode: int32(model.OK),
+		StatusMsg:  "user login success",
+	}
 	return &resp
 }

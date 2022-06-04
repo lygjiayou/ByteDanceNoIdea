@@ -37,7 +37,7 @@ func Login(c *gin.Context) {
 			//}
 			// 第一次登录需要根据用户名查询对应的ID，ID作为token的一部分,下次登录仍然重新生成token,token的作用是用户携带token访问其他资源时不用重新登录了
 			user := model.User{
-				Name: req.Name,
+				UserName: req.Name,
 			}
 			_, _ = user.FindByUsername()
 			//id,exist := user.FindByUsername() // 根据用户名从数据库中查询用户ID

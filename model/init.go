@@ -13,7 +13,7 @@ import (
 var (
 	addrMYSQL = "127.0.0.1:3306" //mysql地址
 	account   = "root"           //mysql账号
-	password  = "xbgydx138386"   //mysql密码
+	password  = "12345asd"       //mysql密码
 	dbName    = "noideadouyin"   //mysql数据库
 )
 
