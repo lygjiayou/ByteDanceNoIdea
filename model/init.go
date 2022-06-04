@@ -12,8 +12,8 @@ import (
 //以下是配置mysql数据库
 var (
 	addrMYSQL = "127.0.0.1:3306" //mysql地址
-	account   = "debian-sys-maint"           //mysql账号
-	password  = "lUjHXfT5JAeV91up"   //mysql密码
+	account   = "root"           //mysql账号
+	password  = "root"   //mysql密码
 	dbName    = "noideadouyin"   //mysql数据库
 )
 
