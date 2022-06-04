@@ -1,14 +1,14 @@
 package main
 
 import (
-	"douyin/repository"
-	"douyin/server"
+	"ByteDanceNoIdea/model"
+	"ByteDanceNoIdea/server"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
-	repository.InitMysql()
+	model.InitMysql()
 
 	r := gin.Default()
 

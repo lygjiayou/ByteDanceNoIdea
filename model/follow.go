@@ -1,4 +1,4 @@
-package repository
+package model
 
 type Follow struct {
 	Id         int64  `gorm:"column:id"`    // 关注记录ID

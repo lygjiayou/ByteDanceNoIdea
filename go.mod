@@ -1,4 +1,4 @@
-module douyin
+module ByteDanceNoIdea
 
 go 1.17
 

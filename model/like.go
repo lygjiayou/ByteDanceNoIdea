@@ -1,4 +1,4 @@
-package repository
+package model
 
 type Like struct {
 	Id      int64  `gorm:"column:id"`    // 点赞记录ID

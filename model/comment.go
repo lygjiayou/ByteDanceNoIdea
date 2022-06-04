@@ -1,4 +1,4 @@
-package repository
+package model
 
 type Comment struct {
 	Id          int64  `gorm:"column:id"`           // 视频评论ID

@@ -1,7 +1,7 @@
-package repository
+package model
 
 import (
-	"douyin/utils/errmsg"
+	"ByteDanceNoIdea/utils/errmsg"
 	"encoding/base64"
 	"fmt"
 	"golang.org/x/crypto/scrypt"
@@ -23,11 +23,11 @@ type User struct {
 
 // 查询用户是否存在
 func CheckUser(name string) (code int) {
-	var users User
+	var user User
 
-	db.Select("id").Where("user_name = ?", name).First(&users)
+	db.Select("id").Where("user_name = ?", name).First(&user)
 
-	if users.ID > 0 {
+	if user.ID > 0 {
 		fmt.Println("CheckUser Error")
 		return errmsg.ERROR_USERNAME_USED
 	}
@@ -54,7 +54,8 @@ func CheckLogin(username string, password string) int {
 	if user.ID == 0 {
 		return errmsg.ERROR_USER_NOT_EXIST
 	}
-	if ScryptPW(password) != user.Password {
+	//password = ScryptPW(password)
+	if password != user.Password {
 		return errmsg.ERROR_PASSWORD_WRONG
 	}
 
@@ -78,6 +79,25 @@ func ScryptPW(password string) string {
 	}
 	fpw := base64.StdEncoding.EncodeToString(HashPw)
 	return fpw
+}
+
+// 根据username获取到user信息
+func FindUserInfo(user User) (int, error) {
+	find := db.Select("id", "user_name", "follow_count", "follower_count").Where("username=?", user.UserName).Find(user) // 已经写入到user里了
+	return int(find.RowsAffected), find.Error
+}
+
+// 根据username查询userID
+func (user *User) FindByUsername() (int64, error) {
+	//var user User
+	result := db.Where("user_name=?", user.UserName).Select("id").Find(&user)
+	return user.ID, result.Error
+}
+
+// FindByUserID 通过用户ID查找用户
+func (user *User) FindByUserID(userid string) (int, error) {
+	find := db.Select("id", "user_name", "follow_count", "follower_count").Where("id?", userid).Find(user)
+	return int(find.RowsAffected), find.Error
 }
 
 //func (User) TableName() string {

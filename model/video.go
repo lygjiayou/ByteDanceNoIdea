@@ -1,4 +1,4 @@
-package repository
+package model
 
 type Video struct {
 	Id            int64  `gorm:"column:id"`             // 视频ID

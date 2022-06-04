@@ -1,4 +1,4 @@
-package controller
+package api
 
 var DemoVideos = []Video{
 	{

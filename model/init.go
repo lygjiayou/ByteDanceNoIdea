@@ -1,7 +1,7 @@
-package repository
+package model
 
 import (
-	"douyin/utils"
+	"ByteDanceNoIdea/utils"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

@@ -1,4 +1,4 @@
-package controller
+package api
 
 // 关注操作等等会使用到
 type Response struct {

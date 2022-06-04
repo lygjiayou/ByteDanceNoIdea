@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"douyin/utils"
-	"douyin/utils/errmsg"
+	"ByteDanceNoIdea/utils"
+	"ByteDanceNoIdea/utils/errmsg"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"net/http"

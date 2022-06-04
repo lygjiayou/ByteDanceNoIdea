@@ -19,7 +19,7 @@ var (
 )
 
 func init() {
-	file, err := ini.Load("C:\\Users\\horizon\\Desktop\\ByteDanceNoIdea\\config\\config.ini")
+	file, err := ini.Load(".\\config\\config.ini")
 	if err != nil {
 		fmt.Println("配置文件读取错误，请检查读取路径", err)
 	}
@@ -37,7 +37,7 @@ func LoadData(file *ini.File) {
 	Db = file.Section("database").Key("Db").MustString("mysql")
 	DbHost = file.Section("database").Key("DbHost").MustString("localhost")
 	DbPort = file.Section("database").Key("DbPort").MustString("3306")
-	DbUser = file.Section("database").Key("DbUser").MustString("admin")
-	DbPassWord = file.Section("database").Key("DbPassWord").MustString("123456")
+	DbUser = file.Section("database").Key("DbUser").MustString("root")
+	DbPassWord = file.Section("database").Key("DbPassWord").MustString("xbgydx138386")
 	DbName = file.Section("database").Key("DbName").MustString("noidea")
 }
