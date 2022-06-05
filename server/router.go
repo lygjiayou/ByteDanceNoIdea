@@ -15,13 +15,14 @@ func InitRouter(r *gin.Engine) {
 	{
 		publicApiRouter.POST("/user/register/", api.UserRegister)
 		publicApiRouter.POST("/user/login/", api.UserLogin)
+		publicApiRouter.GET("/user/", api.UserInfo)
 	}
 
 	// 需要token验证的路由放在该路由下
 	auth := r.Group("/douyin")
 	auth.Use(middleware.JwtToken())
 	{
-		auth.GET("/user/", api.UserInfo)
+		//auth.GET("/user/", api.UserInfo)
 		auth.GET("/xxx/xxx/", api.TokenTest)
 	}
 

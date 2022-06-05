@@ -54,8 +54,7 @@ func CheckLogin(username string, password string) int {
 	if user.ID == 0 {
 		return errmsg.ERROR_USER_NOT_EXIST
 	}
-	//password = ScryptPW(password)
-	if password != user.Password {
+	if ScryptPW(password) != user.Password {
 		return errmsg.ERROR_PASSWORD_WRONG
 	}
 
@@ -96,7 +95,7 @@ func (user *User) FindByUsername() (int64, error) {
 
 // FindByUserID 通过用户ID查找用户
 func (user *User) FindByUserID(userid string) (int, error) {
-	find := db.Select("id", "user_name", "follow_count", "follower_count").Where("id?", userid).Find(user)
+	find := db.Select("id", "user_name", "follow_count", "follower_count").Where("id=?", userid).Find(user)
 	return int(find.RowsAffected), find.Error
 }
 

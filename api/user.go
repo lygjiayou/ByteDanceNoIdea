@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 var code int
@@ -45,7 +46,7 @@ func UserLogin(c *gin.Context) {
 	var token string
 	data.UserName = c.Query("username")
 	data.Password = c.Query("password")
-	data.Password = model.ScryptPW(data.Password)
+	//data.Password = model.ScryptPW(data.Password)
 	// 根据username查询userid
 	data.ID, _ = data.FindByUsername()
 	code = model.CheckLogin(data.UserName, data.Password)
@@ -71,20 +72,10 @@ func UserLogin(c *gin.Context) {
 func UserInfo(c *gin.Context) {
 	//var resp UserInfoResponse
 	var user model.User
-	// 自动验证的
-	//token := c.Query("token")
-	//// 验证token
-	//key, code := middleware.CheckToken(token)
-	//if code == errmsg.ERROR {
-	//	c.JSON(http.StatusBadRequest, Response{
-	//		StatusCode: 1,
-	//		StatusMsg:  "User doesn't exist",
-	//	})
-	//}
-	//user.UserName = key.Username
-	id := c.Query("user_id")
-	//user.ID = id
-	_, _ = user.FindByUserID(id)
+	//id := c.Query("user_id")
+	s := c.Query("user_id")
+	strconv.Atoi(s)
+	_, _ = user.FindByUserID(s)
 	c.JSON(http.StatusOK, model.UserResponse{
 		Response: model.Response{StatusCode: 0, StatusMsg: "success"},
 		User:     user,
