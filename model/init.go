@@ -19,7 +19,7 @@ import (
 //	dbName    = "noideadouyin"   //mysql数据库
 //)
 
-var db *gorm.DB
+var Db *gorm.DB
 var err error
 
 // InitMysql 初始化mysql链接
@@ -35,18 +35,24 @@ func InitMysql() {
 		},
 	)
 	connString := utils.DbUser + ":" + utils.DbPassWord + "@tcp(" + utils.DbHost + ":" + utils.DbPort + ")/" + utils.DbName + "?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err = gorm.Open(mysql.Open(connString), &gorm.Config{
+	Db, err = gorm.Open(mysql.Open(connString), &gorm.Config{
 		Logger: newLogger,
 		//SkipDefaultTransaction: false, //自动开启事务的开关
 	})
 
 	// 设置自动迁移
-	err = db.AutoMigrate(&User{})
+	err = Db.AutoMigrate(&User{})
 	if err != nil {
 		fmt.Println("自动迁移失败")
 	}
 
-	sqlDB, err := db.DB()
+	// 设置自动迁移
+	err = Db.AutoMigrate(&Video{})
+	if err != nil {
+		fmt.Println("自动迁移失败")
+	}
+
+	sqlDB, err := Db.DB()
 	if err != nil {
 		log.Fatalln("mysql lost:", err)
 	}

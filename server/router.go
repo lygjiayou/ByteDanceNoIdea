@@ -15,6 +15,8 @@ func InitRouter(r *gin.Engine) {
 	{
 		publicApiRouter.POST("/user/register/", api.UserRegister)
 		publicApiRouter.POST("/user/login/", api.UserLogin)
+		publicApiRouter.POST("/publish/action/", api.Publish)
+		//publicApiRouter.GET("/publish/list/", api.PublishList)
 		//publicApiRouter.GET("/user/", api.UserInfo)
 	}
 
@@ -23,6 +25,8 @@ func InitRouter(r *gin.Engine) {
 	auth.Use(middleware.JwtToken())
 	{
 		auth.GET("/user/", api.UserInfo)
+		auth.GET("/publish/list", api.GetPublishList)
+		//auth.POST("/publish/action/", api.Publish),yanghai自己验证了，就不放在这里了
 		auth.GET("/xxx/xxx/", api.TokenTest)
 	}
 
