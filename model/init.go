@@ -40,14 +40,20 @@ func InitMysql() {
 		//SkipDefaultTransaction: false, //自动开启事务的开关
 	})
 
-	// 设置自动迁移
+	// 设置用户信息自动迁移
 	err = Db.AutoMigrate(&User{})
 	if err != nil {
 		fmt.Println("自动迁移失败")
 	}
 
-	// 设置自动迁移
+	// 设置视频信息自动迁移
 	err = Db.AutoMigrate(&Video{})
+	if err != nil {
+		fmt.Println("自动迁移失败")
+	}
+
+	// 设置点赞信息自动迁移
+	err = Db.AutoMigrate(&Favorite{})
 	if err != nil {
 		fmt.Println("自动迁移失败")
 	}

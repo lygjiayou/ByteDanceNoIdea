@@ -8,14 +8,16 @@ import (
 
 func InitRouter(r *gin.Engine) {
 	// public directory is used to serve static resources
-	r.Static("/static", "./public")
+	r.Static("/public", "./public")
 
 	// 无需token验证的路由放在该路由下
 	publicApiRouter := r.Group("/douyin")
 	{
+		publicApiRouter.GET("/feed/", api.Feed)
 		publicApiRouter.POST("/user/register/", api.UserRegister)
 		publicApiRouter.POST("/user/login/", api.UserLogin)
 		publicApiRouter.POST("/publish/action/", api.Publish)
+		publicApiRouter.POST("/favorite/action/", api.FavoriteAction)
 		//publicApiRouter.GET("/publish/list/", api.PublishList)
 		//publicApiRouter.GET("/user/", api.UserInfo)
 	}
