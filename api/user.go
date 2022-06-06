@@ -70,15 +70,20 @@ func UserLogin(c *gin.Context) {
 //}
 
 func UserInfo(c *gin.Context) {
-	//var resp UserInfoResponse
+	var userinfo model.UserInfo
 	var user model.User
 	//id := c.Query("user_id")
 	s := c.Query("user_id")
 	strconv.Atoi(s)
 	_, _ = user.FindByUserID(s)
+	userinfo.ID = user.ID
+	userinfo.UserName = user.UserName
+	userinfo.FollowCount = user.FollowCount
+	userinfo.FollowerCount = user.FollowerCount
+	userinfo.IsFollow = false // 先这样写
 	c.JSON(http.StatusOK, model.UserResponse{
 		Response: model.Response{StatusCode: 0, StatusMsg: "success"},
-		User:     user,
+		User:     userinfo,
 	})
 	//var user model.User
 	//user.UserName = key.Username
