@@ -13,9 +13,10 @@ type Response struct {
 //	FollowerCount int64  `gorm:"type:int; not null default:0 " json:"follower_count"`
 //}
 
+// lyg
 type UserResponse struct {
 	Response
-	User User `json:"user"`
+	User UserInfo `json:"user"`
 }
 
 // qianyu
