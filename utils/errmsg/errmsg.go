@@ -20,6 +20,9 @@ const (
 	ERROR_SAVE_VIDEO = 2002
 	ERROR_SAVE_COVER = 2003
 	ERROR_UPDATE_DB = 2004
+
+	//点赞模块错误
+	ERROR_FAVORITEACTION_FALSE = 3001
 	
 )
 
@@ -40,6 +43,8 @@ var CodeMsg = map[int]string{
 	ERROR_SAVE_VIDEO:	"保存视频数据错误",
 	ERROR_SAVE_COVER:	"保存视频封面错误",
 	ERROR_UPDATE_DB:	"更新数据库视频信息错误",
+
+	ERROR_FAVORITEACTION_FALSE:	"点赞操作失败",
 
 }
 

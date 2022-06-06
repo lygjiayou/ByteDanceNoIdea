@@ -12,7 +12,7 @@ import (
 )
 
 //保存视频信息到数据库
-func SaveVideo(userID int64, videoUrl string, coverUrl string) int64 {
+func SaveVideo(userID int64, videoUrl string, coverUrl string, videoTitle string) int64 {
 	//获取ip
 	conn,err := net.Dial("udp","8.8.8.8:53")
 	if err != nil {
@@ -28,6 +28,7 @@ func SaveVideo(userID int64, videoUrl string, coverUrl string) int64 {
 		PlayUrl:fmt.Sprintf("%s://%s:%s/%s","http",ip,"8080", videoUrl),
 		CoverUrl:fmt.Sprintf("%s://%s:%s/%s","http",ip,"8080", coverUrl),
 		CreateTime:time.Now().Unix(),
+		VideoTitle:videoTitle,
 	}
 	return model.Db.Create(&video).RowsAffected
 }
@@ -78,6 +79,7 @@ func PublishList(userid int64) []model.VideoInfo {
 			FavoriteCount:	video.FavoriteCount,
 			CommentCount:	video.CommentCount,
 			IsFavorite:	false,
+			VideoTitle:video.VideoTitle,
 		})
 	}
 	return videoInfos

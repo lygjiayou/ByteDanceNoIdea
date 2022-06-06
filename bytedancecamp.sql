@@ -16,8 +16,8 @@ INSERT INTO `user`
 VALUES (1, '小明','123',1,1),
        (2, '小红','124',1,1);
 
-DROP TABLE IF EXISTS `videos`;
-CREATE TABLE `videos`
+DROP TABLE IF EXISTS `video`;
+CREATE TABLE `video`
 (
     `id`      int(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '视频ID',
     `author_id`     int(20) NOT NULL DEFAULT 0 COMMENT '用户ID',
@@ -26,6 +26,7 @@ CREATE TABLE `videos`
     `favorite_count`     int(10)                NOT NULL COMMENT '视频点赞总数',
     `comment_count`     int(10)                NOT NULL COMMENT '视频评论总数',
     `create_time` int(20)           NOT NULL COMMENT '投稿时间',
+    `video_title` varchar(255)  NOT NULL COMMENT '视频标题'
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='视频表';
@@ -47,8 +48,8 @@ CREATE TABLE `comment`
 INSERT INTO `comment`
 VALUES (1, 1, 1, '有趣', '2022-04-01 14:50:19');
 
-DROP TABLE IF EXISTS `like`;
-CREATE TABLE `like`
+DROP TABLE IF EXISTS `favorite`;
+CREATE TABLE `favorite`
 (
     `id`          int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '点赞记录ID',
     `user_id`   int(10) unsigned NOT NULL DEFAULT 0 COMMENT '点赞用户ID',

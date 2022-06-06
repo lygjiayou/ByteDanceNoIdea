@@ -85,7 +85,7 @@ func Publish(c *gin.Context) {
 	}
 
 	//保存视频和封面信息到数据库
-	success := service.SaveVideo(userId, saveVideoFile, saveCoverFile)
+	success := service.SaveVideo(userId, saveVideoFile, saveCoverFile,videoTitle)
 	if success == 0 {
 		c.JSON(http.StatusOK,model.Response{
 			StatusCode:errmsg.ERROR_UPDATE_DB,

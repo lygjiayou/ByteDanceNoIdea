@@ -9,6 +9,11 @@ type Video struct {
 	FavoriteCount int64 `gorm:"column:favorite_count"`
 	CommentCount  int64 `gorm:"column:comment_count"`
 	CreateTime    int64  `gorm:"column:create_time"`
+	VideoTitle	string	`gorm:"column:video_title"`
+}
+
+func (Video) TableName() string {
+	return "video"
 }
 
 // publishlist返回给用户的Video信息
@@ -20,4 +25,5 @@ type VideoInfo struct {
 	FavoriteCount int64   `json:"favorite_count"`
 	CommentCount  int64   `json:"comment_count"`
 	IsFavorite    bool     `json:"is_favorite"`
+	VideoTitle	string	`gorm:"column:video_title"`
 }
