@@ -70,10 +70,17 @@ func PublishList(userid int64) []model.VideoInfo {
 	for _, video := range videos {
 		var author model.User
 		model.Db.Model(&model.User{}).Where("id = ?", video.AuthorID).First(&author)
+		var authorInfo model.UserInfo
+		//authorOrigin -> authorInfo
+		authorInfo.ID = author.ID
+		authorInfo.UserName = author.UserName
+		authorInfo.FollowCount = author.FollowCount
+		authorInfo.FollowerCount = author.FollowerCount
+		authorInfo.IsFollow = false //temp
 
 		videoInfos = append(videoInfos, model.VideoInfo{
 			ID:            video.ID,
-			Author:        author,
+			Author:        authorInfo,
 			PlayUrl:       video.PlayUrl,
 			CoverUrl:      video.CoverUrl,
 			FavoriteCount: video.FavoriteCount,

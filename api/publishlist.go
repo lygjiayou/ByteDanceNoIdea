@@ -17,7 +17,7 @@ func GetPublishList(c *gin.Context) {
 		c.JSON(http.StatusOK, resp)
 	} else {
 		resp.StatusCode = 0
-		resp.StatusMsg = "OK"
+		resp.StatusMsg = "success"
 		resp.VideoList = service.PublishListService(model.PublishListRequest{UserID: int64(userID)})
 		c.JSON(http.StatusOK, resp)
 	}
