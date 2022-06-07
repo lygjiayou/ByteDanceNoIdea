@@ -58,8 +58,43 @@ func FavoriteAction(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, model.Response{
-		StatusCode: errmsg.LIKE_SUCCESS,
+		StatusCode: errmsg.SUCCESS,
 		StatusMsg: errmsg.GetErrMsg(errmsg.LIKE_SUCCESS),
 	})	
 	return 
+}
+
+func FavoriteList(c *gin.Context) {
+	//获取参数
+	userId, _ := strconv.ParseInt(c.Query("user_id"),10,64)
+	token := c.Query("token")
+	if token == "" {
+		c.JSON(http.StatusOK, model.FavoriteListResponse{
+			Response: model.Response{
+				StatusCode: errmsg.ERROR_TOKEN_EXIST,
+				StatusMsg:errmsg.GetErrMsg(errmsg.ERROR_TOKEN_EXIST),
+			},
+		})
+		return
+	}
+
+	//token鉴权
+	_,err := middleware.CheckToken(token)
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, model.Response{
+			StatusCode:errmsg.ERROR_TOKEN_WRONG,
+			StatusMsg:errmsg.GetErrMsg(errmsg.ERROR_TOKEN_WRONG),
+		})
+		return
+	}
+
+	//返回点赞视频
+	c.JSON(http.StatusOK, model.FavoriteListResponse{
+		Response: model.Response{
+			StatusCode: errmsg.SUCCESS,
+			StatusMsg: errmsg.GetErrMsg(errmsg.SUCCESS),
+		},
+		LikeVideoList: service.FavoriteListService(userId),
+	})
+	return
 }

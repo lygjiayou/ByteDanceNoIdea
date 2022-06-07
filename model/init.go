@@ -58,6 +58,18 @@ func InitMysql() {
 		fmt.Println("自动迁移失败")
 	}
 
+	// 设置评论信息自动迁移
+	err = Db.AutoMigrate(&Comment{})
+	if err != nil {
+		fmt.Println("自动迁移失败")
+	}
+
+	// 设置关注信息自动迁移
+	err = Db.AutoMigrate(&Relation{})
+	if err != nil {
+		fmt.Println("自动迁移失败")
+	}
+
 	sqlDB, err := Db.DB()
 	if err != nil {
 		log.Fatalln("mysql lost:", err)

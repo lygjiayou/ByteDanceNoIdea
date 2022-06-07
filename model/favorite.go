@@ -9,8 +9,10 @@ type Favorite struct {
 func (Favorite) TableName() string {
 	return "favorite"
 }
+
+
 //favorite列表
-type FavoriteList struct {
+type FavoriteListResponse struct {
 	Response
-	VideoInfoList []VideoInfo `json:"video_list"`
+	LikeVideoList []VideoInfo `json:"video_list"`
 }

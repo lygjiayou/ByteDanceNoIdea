@@ -17,13 +17,13 @@ type User struct {
 	FollowCount   int64  `gorm:"type:int; not null default:0 " json:"follow_count"`   // 关注总数
 	FollowerCount int64  `gorm:"type:int; not null default:0 " json:"follower_count"` // 粉丝总数
 	//Gender        string `gorm:"type:varchar(6); not null" json:"gender"`    // male-男性，female-女性
-	//IsFollow      bool   `gorm:"column:is_follow"`     // true-已关注，false-未关注
+	//IsFollow      bool   `gorm:"column:is_follow; not null default:false"`     // true-已关注，false-未关注
 }
 
 // 返回UserInfo的信息和发布列表的信息
 type UserInfo struct {
 	ID            int64  `json:"id"`           // 用户id
-	UserName      string `json:"username"`     // 用户名称		// 用户密码
+	UserName      string `json:"name"`     // 用户名称		// 用户密码
 	FollowCount   int64  `json:"follow_count"` // 关注总数
 	FollowerCount int64  `json:"follower_count"`
 	IsFollow      bool   `json:"is_follow"` // true-已关注，false-未关注

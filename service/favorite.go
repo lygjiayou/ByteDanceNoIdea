@@ -47,3 +47,31 @@ func Action(userId int64, videoId int64, actionType int) bool {
 	}
 }
 
+func FavoriteListService(userId int64) []model.VideoInfo{
+	var videos []int64
+	var videoList []model.VideoInfo
+	model.Db.Model(&model.Favorite{}).Select("video_id").Where("user_id = ?",userId).Find(&videos)
+
+	for videoId := range videos {
+		var video model.Video
+		model.Db.Model(&model.Video{}).Where("id = ?", videoId).First(&video)
+
+		var author model.UserInfo
+		model.Db.Model(&model.User{}).Where("id = ?", video.AuthorID).First(&author)
+		author.IsFollow = false
+		var isFavorite int64
+		model.Db.Model(&model.Favorite{}).Where("user_id = ? and video_id = ?",userId,video.ID).Count(&isFavorite)
+		
+		videoList = append(videoList, model.VideoInfo{
+			ID: video.ID,
+			Author: author,
+			PlayUrl:	video.PlayUrl,
+			CoverUrl:	video.CoverUrl,
+			FavoriteCount: video.FavoriteCount,
+			CommentCount:	video.CommentCount,
+			IsFavorite:	isFavorite > 0,
+			Title:	video.Title,
+		})
+	}
+	return videoList
+}

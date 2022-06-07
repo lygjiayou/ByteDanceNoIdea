@@ -1,11 +1,13 @@
 package errmsg
 
 const (
-	SUCCESS = 200
+	SUCCESS = 0
 	ERROR   = 500
 
-	// code = 1000...用户模块的错误
+	//error
+	ERROR_PARAM_ERROR = 101
 
+	// code = 1000...用户模块的错误
 	ERROR_USERNAME_USED    = 1001
 	ERROR_PASSWORD_WRONG   = 1002
 	ERROR_USER_NOT_EXIST   = 1003
@@ -22,14 +24,29 @@ const (
 	ERROR_UPDATE_DB  = 2004
 
 	//点赞模块错误
-	LIKE_SUCCESS = 0
-	ERROR_FAVORITEACTION_FALSE = 3001
+	LIKE_SUCCESS = 3001
+	ERROR_FAVORITEACTION_FALSE = 3002
+
+	//评论模块错误
+	COMMENT_SUCCESS = 4001
+	DELETE_COMMENT_SUCCESS = 4002
+	ERROR_COMMENT_FAIL = 4003
+	ERROR_DELETE_FAIL = 4004
+
+	//关注模块错误
+	FOLLOW_SUCCESS = 5001
+	CANCEL_FOLLOW_SUCCESS = 5002
+	ERROR_FOLLOW_FAIL = 5003
+	ERROR_CANCEL_FAIL = 5004
+	ERROR_ALREADY_FOLLOW = 5005
+	ERROR_ALREADY_CANCEL = 5006
 )
 
 // CodeMsg err_code -> err_msg
 var CodeMsg = map[int]string{
 	SUCCESS:                "OK~",
 	ERROR:                  "FAIL",
+	ERROR_PARAM_ERROR:	"参数错误",
 	ERROR_USERNAME_USED:    "用户名已存在",
 	ERROR_PASSWORD_WRONG:   "密码错误",
 	ERROR_USER_NOT_EXIST:   "用户不存在",
@@ -46,6 +63,18 @@ var CodeMsg = map[int]string{
 
 	ERROR_FAVORITEACTION_FALSE:	"点赞失败",
 	LIKE_SUCCESS:	"点赞成功",
+
+	ERROR_COMMENT_FAIL:	"评论失败",
+	COMMENT_SUCCESS:	"已发布评论",
+	DELETE_COMMENT_SUCCESS:	"删除成功",
+	ERROR_DELETE_FAIL: "删除失败",
+
+	FOLLOW_SUCCESS: "关注成功",
+	CANCEL_FOLLOW_SUCCESS:	"取消关注成功",
+	ERROR_FOLLOW_FAIL:	"关注失败",
+	ERROR_CANCEL_FAIL:	"取消关注失败",
+	ERROR_ALREADY_FOLLOW:	"关注失败,您已经关注up啦",
+	ERROR_ALREADY_CANCEL:	"取关失败,您没有关注up哟",
 }
 
 func GetErrMsg(code int) string {

@@ -4,7 +4,7 @@ package model
 // Video数据库模型
 type Video struct {
 	ID            int64  `gorm:"column:id;autoIncrement;primaryKey"`
-	AuthorID      int64  `gorm:"column:author_id"` // gorm是写入数据库的不是对应的json
+	AuthorID      int64  `gorm:"column:author_id"`
 	PlayUrl       string `gorm:"column:play_url"`
 	CoverUrl      string `gorm:"column:cover_url"`
 	FavoriteCount int64  `gorm:"column:favorite_count"`

@@ -9,6 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"path/filepath"
+	//"strings"
+	"strconv"
 )
 
 func Publish(c *gin.Context) {
@@ -101,51 +103,37 @@ func Publish(c *gin.Context) {
 	})
 }
 
-//func PublishList(c *gin.Context) {
-//	//获取token
-//	token := c.Query("token")
-//	//token不存在
-//	if token == "" {
-//		c.JSON(http.StatusOK, model.PublishListResponse{
-//			PublishResponse: model.PublishResponse{
-//				StatusCode: errmsg.ERROR_TOKEN_EXIST,
-//				StatusMsg: errmsg.GetErrMsg(errmsg.ERROR_TOKEN_EXIST),
-//			},
-//			VideoList: []model.VideoInfo{},
-//		})
-//		return
-//	}
-//
-//	//获取user id
-//	//解析username
-//	key,err := middleware.CheckToken(token)
-//	if err != errmsg.SUCCESS {
-//		c.JSON(http.StatusOK, model.Response{
-//			StatusCode:errmsg.ERROR_TOKEN_WRONG,
-//			StatusMsg:errmsg.GetErrMsg(errmsg.ERROR_TOKEN_WRONG),
-//		})
-//		return
-//	}
-//	//根据username获取userid
-//	user := model.User{
-//		UserName:key.Username,
-//	}
-//	userId, is_found :=  user.FindByUsername()
-//	if(is_found != nil) {
-//		c.JSON(http.StatusOK,model.Response{
-//			StatusCode:errmsg.ERROR_USER_NOT_EXIST,
-//			StatusMsg:errmsg.GetErrMsg(errmsg.ERROR_USER_NOT_EXIST),
-//		})
-//		return
-//	}
-//
-//	//返回投稿视频
-//	c.JSON(http.StatusOK, model.PublishListResponse{
-//		PublishResponse: model.PublishResponse{
-//			StatusCode: errmsg.SUCCESS,
-//			StatusMsg: errmsg.GetErrMsg(errmsg.SUCCESS),
-//		},
-//		VideoList: service.PublishList(userId),
-//	})
-//
-//}
+func PublishList(c *gin.Context) {
+	//获取token
+	token := c.Query("token")
+	//token不存在
+	if token == "" {
+		c.JSON(http.StatusOK, model.PublishListResponse{
+			StatusCode: errmsg.ERROR_TOKEN_EXIST,
+			StatusMsg: errmsg.GetErrMsg(errmsg.ERROR_TOKEN_EXIST),
+			VideoList: []model.VideoInfo{},
+		})
+		return
+	}
+
+	//token鉴权
+	_,err := middleware.CheckToken(token)
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, model.Response{
+			StatusCode:errmsg.ERROR_TOKEN_WRONG,
+			StatusMsg:errmsg.GetErrMsg(errmsg.ERROR_TOKEN_WRONG),
+		})
+		return
+	}
+	
+	//获取user id
+	userId, _ := strconv.ParseInt(c.Query("user_id"), 10, 64)
+
+	//返回投稿视频
+	c.JSON(http.StatusOK, model.PublishListResponse{
+		StatusCode: errmsg.SUCCESS,
+		StatusMsg: errmsg.GetErrMsg(errmsg.SUCCESS),
+		VideoList: service.PublishList(userId),
+	})
+
+}
