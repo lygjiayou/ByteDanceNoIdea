@@ -9,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"path/filepath"
-	"strings"
 )
 
 func Publish(c *gin.Context) {
@@ -72,17 +71,17 @@ func Publish(c *gin.Context) {
 	}
 
 	//提取视频第一帧作为封面保存至pulic
-	//saveCoverFile := "https://cdn.pixabay.com/photo/2016/03/27/18/10/bear-1283347_1280.jpg"
-	videoTitle := c.PostForm("title")
-	videoName := strings.Split(saveVideoFile, ".")
-	saveCoverFile := strings.Join(videoName[:len(videoName)-1], "") + ".jpg"
-	if saveCoverSuccess := service.SaveCover(saveVideoFile, videoTitle); saveCoverSuccess == false {
-		c.JSON(http.StatusOK, model.Response{
-			StatusCode: errmsg.ERROR_SAVE_COVER,
-			StatusMsg:  errmsg.GetErrMsg(errmsg.ERROR_SAVE_COVER),
-		})
-		return
-	}
+	saveCoverFile := "https://cdn.pixabay.com/photo/2016/03/27/18/10/bear-1283347_1280.jpg"
+	//videoTitle := c.PostForm("title")
+	//videoName := strings.Split(saveVideoFile, ".")
+	//saveCoverFile := strings.Join(videoName[:len(videoName)-1], "") + ".jpg"
+	//if saveCoverSuccess := service.SaveCover(saveVideoFile, videoTitle); saveCoverSuccess == false {
+	//	c.JSON(http.StatusOK, model.Response{
+	//		StatusCode: errmsg.ERROR_SAVE_COVER,
+	//		StatusMsg:  errmsg.GetErrMsg(errmsg.ERROR_SAVE_COVER),
+	//	})
+	//	return
+	//}
 
 	//保存视频和封面信息到数据库
 	success := service.SaveVideo(userId, saveVideoFile, saveCoverFile)

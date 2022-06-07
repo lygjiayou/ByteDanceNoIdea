@@ -13,10 +13,11 @@ func InitRouter(r *gin.Engine) {
 	// 无需token验证的路由放在该路由下
 	publicApiRouter := r.Group("/douyin")
 	{
-		publicApiRouter.GET("/feed/", api.Feed)
+		//publicApiRouter.GET("/feed/", api.Feed)
 		publicApiRouter.POST("/user/register/", api.UserRegister)
 		publicApiRouter.POST("/user/login/", api.UserLogin)
 		publicApiRouter.POST("/publish/action/", api.Publish)
+		publicApiRouter.GET("/feed/", api.Feed) // 因为要通过token来解析出username,进而获取到用户信息，所以就不用route来验证token了，但是这样要自己验证token
 		publicApiRouter.POST("/favorite/action/", api.FavoriteAction)
 		//publicApiRouter.GET("/publish/list/", api.PublishList)
 		//publicApiRouter.GET("/user/", api.UserInfo)
