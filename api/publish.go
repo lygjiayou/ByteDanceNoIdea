@@ -85,7 +85,6 @@ func Publish(c *gin.Context) {
 		})
 		return
 	}
-
 	//保存视频和封面信息到数据库
 	success := service.SaveVideo(userId, saveVideoFile, saveCoverFile)
 	if success == 0 {
