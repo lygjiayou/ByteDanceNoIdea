@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"path/filepath"
-	//"strings"
+	"strings"
 	"strconv"
 )
 
@@ -73,18 +73,18 @@ func Publish(c *gin.Context) {
 	}
 
 	//固定封面
-	saveCoverFile := "public/cover.JPG"
+	//saveCoverFile := "public/cover.JPG"
 	//提取视频第一帧作为封面保存至pulic
-	//videoTitle := c.PostForm("title")
-	//videoName := strings.Split(saveVideoFile, ".")
-	//saveCoverFile := strings.Join(videoName[:len(videoName)-1], "") + ".jpg"
-	//if saveCoverSuccess := service.SaveCover(saveVideoFile, videoTitle); saveCoverSuccess == false {
-	//	c.JSON(http.StatusOK, model.Response{
-	//		StatusCode: errmsg.ERROR_SAVE_COVER,
-	//		StatusMsg:  errmsg.GetErrMsg(errmsg.ERROR_SAVE_COVER),
-	//	})
-	//	return
-	//}
+	videoTitle := c.PostForm("title")
+	videoName := strings.Split(saveVideoFile, ".")
+	saveCoverFile := strings.Join(videoName[:len(videoName)-1], "") + ".jpg"
+	if saveCoverSuccess := service.SaveCover(saveVideoFile, videoTitle); saveCoverSuccess == false {
+		c.JSON(http.StatusOK, model.Response{
+			StatusCode: errmsg.ERROR_SAVE_COVER,
+			StatusMsg:  errmsg.GetErrMsg(errmsg.ERROR_SAVE_COVER),
+		})
+		return
+	}
 
 	//保存视频和封面信息到数据库
 	success := service.SaveVideo(userId, saveVideoFile, saveCoverFile)
